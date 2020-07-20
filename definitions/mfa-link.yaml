@@ -1,0 +1,11 @@
+---
+id: org.standardnotes.mfa-link
+npm: sn-mfa-link
+repo_url: https://github.com/sn-extensions/mfa-link.git
+index: dist/index.html
+
+name: 2FA Manager
+content_type: SN|Component
+area: modal
+description: Configure two-factor authentication to add an extra level of security to your account.
+...
