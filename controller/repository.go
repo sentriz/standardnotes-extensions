@@ -10,8 +10,7 @@ import (
 
 func RepoUpdate(dir, url string) (*git.Repository, error) {
 	repo, err := git.PlainClone(dir, false, &git.CloneOptions{
-		URL:   url,
-		Depth: 1,
+		URL: url,
 	})
 	if err == nil {
 		log.Printf("found new repo: %q\n", url)
@@ -28,7 +27,7 @@ func RepoUpdate(dir, url string) (*git.Repository, error) {
 	if err != nil {
 		return nil, fmt.Errorf("open worktree: %w", err)
 	}
-	err = worktree.Pull(&git.PullOptions{Depth: 1})
+	err = worktree.Pull(&git.PullOptions{Force: true})
 	if err == nil {
 		log.Printf("found new update: %q\n", url)
 		return repo, nil
