@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"path"
 	"regexp"
 	"sort"
@@ -102,7 +103,19 @@ func (c *Controller) ServePackageIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *Controller) ServePackage(w http.ResponseWriter, r *http.Request) {
-	r.URL.Path = regexpPackgeHash.ReplaceAllString(r.URL.Path, "")
-	fs := http.FileServer(http.Dir(c.ReposDir))
-	fs.ServeHTTP(w, r)
+	filePath := path.Join(
+		c.ReposDir,
+		regexpPackgeHash.ReplaceAllString(r.URL.Path, ""),
+	)
+	// would have preferred to use http.ServeFile or http.Dir etc.
+	// but they seem to 301 requests for /index.html to /, which the
+	// android app doesn't seem to like.
+	// so using ServeContent here instead
+	file, err := os.Open(filePath)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("couldn't open file: %v", err), 500)
+		return
+	}
+	defer file.Close()
+	http.ServeContent(w, r, path.Join(c.ReposDir, r.URL.Path), time.Now(), file)
 }
