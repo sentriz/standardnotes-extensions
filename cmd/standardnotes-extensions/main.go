@@ -54,6 +54,7 @@ func main() {
 		handlers.AllowedOrigins([]string{"*"}),
 		handlers.AllowedMethods([]string{"GET", "OPTIONS"}),
 		handlers.AllowedHeaders([]string{"DNT", "User-Agent", "X-Requested-With", "If-Modified-Since", "Cache-Control", "Content-Type", "Range"}),
+		handlers.MaxAge(1728000),
 	)
 	withLogging := handlers.LoggingHandler
 	server := http.Server{
