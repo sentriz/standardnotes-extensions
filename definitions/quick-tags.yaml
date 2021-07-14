@@ -1,7 +1,7 @@
 ---
-id: org.standardnotes.autocomplete-tags
-npm: sn-folders-component
-repo_url: https://github.com/sn-extensions/autocomplete-tags.git
+id: com.standardnotes.quick-tags
+npm: sn-quick-tags
+repo_url: https://github.com/standardnotes/quick-tags.git
 index: index.html
 
 name: Quick Tags

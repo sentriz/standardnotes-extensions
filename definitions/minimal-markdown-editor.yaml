@@ -1,10 +1,10 @@
 ---
-id: org.standardnotes.minimal-markdown-editor
+id: com.standardnotes.minimal-markdown-editor
 npm: sn-minimal-markdown-editor
-repo_url: https://github.com/sn-extensions/minimal-markdown-editor.git
+repo_url: https://github.com/standardnotes/minimal-markdown-editor.git
 index: index.html
 
-name: Minimal Markdown Editor
+name: Markdown Minimist
 content_type: SN|Component
 area: editor-editor
 marketing_url: https://standardnotes.org/extensions/minimal-markdown-editor

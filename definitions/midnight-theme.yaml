@@ -1,13 +1,13 @@
 ---
-id: org.standardnotes.theme-midnight
-npm: sn-theme-midnight
-repo_url: https://github.com/sn-extensions/midnight-theme.git
+id: com.standardnotes.midnight-theme
+npm: sn-midnight-theme
+repo_url: https://github.com/standardnotes/midnight-theme.git
 index: dist/dist.css
 
 name: Midnight
 content_type: SN|Theme
 area: themes
-marketing_url: https://standardnotes.org/extensions/midnight
+marketing_url: https://standardnotes.com/features/midnight
 thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/themes/midnight-with-mobile.jpg
 description: Elegant utilitarianism.
 

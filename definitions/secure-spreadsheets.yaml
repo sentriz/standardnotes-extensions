@@ -1,13 +1,13 @@
 ---
-id: org.standardnotes.standard-sheets
+id: com.standardnotes.secure-spreadsheets
 npm: sn-spreadsheets
-repo_url: https://github.com/sn-extensions/secure-spreadsheets.git
+repo_url: https://github.com/standardnotes/secure-spreadsheets.git
 index: dist/index.html
 
 name: Secure Spreadsheets
 content_type: SN|Component
 area: editor-editor
-marketing_url: 
+marketing_url: https://standardnotes.com/features/secure-spreadsheets
 thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/editors/spreadsheets.png
 description: A powerful spreadsheet editor with formatting and formula support. Not recommended for large data sets, as encryption of such data may decrease editor performance.
 flags: []

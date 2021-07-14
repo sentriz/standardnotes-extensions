@@ -1,13 +1,13 @@
 ---
-id: org.standardnotes.advanced-markdown-editor
-npm: sn-advanced-markdown-editor
-repo_url: https://github.com/sn-extensions/advanced-markdown-editor.git
+id: com.standardnotes.markdown-pro-editor
+npm: sn-markdown-pro-editor
+repo_url: https://github.com/standardnotes/markdown-pro.git
 index: index.html
 
-name: Advanced Markdown Editor
+name: Markdown Pro Editor
 content_type: SN|Component
 area: editor-editor
-marketing_url: https://standardnotes.org/extensions/advanced-markdown
+marketing_url: https://standardnotes.com/features/markdown-pro
 thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/editors/adv-markdown.jpg
 description: A fully featured Markdown editor that supports live preview, a styling toolbar, and split pane support.
 flags: []

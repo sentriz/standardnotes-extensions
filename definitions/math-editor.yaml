@@ -1,13 +1,13 @@
 ---
-id: org.standardnotes.fancy-markdown-editor
-npm: sn-fancy-markdown-editor
-repo_url: https://github.com/sn-extensions/math-editor.git
+id: com.standardnotes.markdown-math
+npm: sn-markdown-math
+repo_url: https://github.com/standardnotes/math-editor.git
 index: index.html
 
-name: Math Editor
+name: Markdown Math
 content_type: SN|Component
 area: editor-editor
-marketing_url: https://standardnotes.org/extensions/math-editor
+marketing_url: https://standardnotes.com/features/markdown-math
 thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/editors/fancy-markdown.jpg
 description: A beautiful split-pane Markdown editor with synced-scroll and LaTeX support. When LaTeX is detected, makes external render network request.
 ...

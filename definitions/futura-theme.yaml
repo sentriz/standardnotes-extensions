@@ -1,13 +1,13 @@
 ---
-id: org.standardnotes.theme-futura
+id: com.standardnotes.theme-futura
 npm: sn-futura-theme
-repo_url: https://github.com/sn-extensions/futura-theme.git
+repo_url: https://github.com/standardnotes/futura-theme.git
 index: dist/dist.css
 
 name: Futura
 content_type: SN|Theme
 area: themes
-marketing_url: https://standardnotes.org/extensions/futura
+marketing_url: https://standardnotes.com/features/futura
 thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/themes/futura-with-mobile.jpg
 description: Calm and relaxed. Take some time off.
 

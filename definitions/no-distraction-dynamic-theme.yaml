@@ -7,7 +7,8 @@ name: No Distraction (Dynamic)
 layerable: true
 content_type: SN|Theme
 area: themes
-marketing_url: https://standardnotes.org/extensions/dynamic
+marketing_url: https://github.com/iganeshk/sn-theme-no-distraction-dynamic
+thumbnail_url: https://raw.githubusercontent.com/iganeshk/sn-theme-no-distraction-dynamic/assets/no-distraction-dynamic.png
 description: A smart theme that minimizes the tags and notes panels when they are not in use.
 
 dock_icon:

@@ -1,13 +1,13 @@
 ---
-id: org.standardnotes.vim-editor
+id: com.standardnotes.vim-editor
 npm: sn-vim-editor
-repo_url: https://github.com/sn-extensions/vim-editor.git
+repo_url: https://github.com/standardnotes/vim-editor.git
 index: index.html
 
 name: Vim Editor
 content_type: SN|Component
 area: editor-editor
-marketing_url: https://standardnotes.org/extensions/vim-editor
+marketing_url: https://standardnotes.com/features/vim-editor
 thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/editors/vim.jpg
 description: A code editor with Vim key bindings.
 flags: []

@@ -1,13 +1,13 @@
 ---
-id: org.standardnotes.theme-focus
-npm: sn-theme-focus
-repo_url: https://github.com/sn-extensions/focus-theme.git
+id: com.standardnotes.focus-theme
+npm: sn-focus-theme
+repo_url: https://github.com/standardnotes/focus-theme.git
 index: dist/dist.css
 
 name: Focus
 content_type: SN|Theme
 area: themes
-marketing_url: https://standardnotes.org/extensions/focused
+marketing_url: https://standardnotes.com/features/focused
 thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/themes/focus-with-mobile.jpg
 description: For when you need to go in.
 

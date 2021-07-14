@@ -1,7 +1,7 @@
 ---
-id: org.standardnotes.mfa-link
+id: com.standardnotes.mfa-link
 npm: sn-mfa-link
-repo_url: https://github.com/sn-extensions/mfa-link.git
+repo_url: https://github.com/standardnotes/mfa-link.git
 index: dist/index.html
 
 name: 2FA Manager

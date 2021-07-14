@@ -1,7 +1,7 @@
 ---
-id: org.standardnotes.theme-autobiography
+id: com.standardnotes.autobiography-theme
 npm: sn-theme-autobiography
-repo_url: https://github.com/sn-extensions/autobiography-theme.git
+repo_url: https://github.com/standardnotes/autobiography-theme.git
 index: dist/dist.css
 
 name: Autobiography
