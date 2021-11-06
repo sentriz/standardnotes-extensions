@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
-	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"go.senan.xyz/standardnotes-extensions/controller"
 	"go.senan.xyz/standardnotes-extensions/definition"
@@ -45,21 +45,25 @@ func main() {
 		log.Fatalf("error parsing update interval: %v", err)
 	}
 	go updatePackages(ctrl.UpdatePackages, time.Duration(cfgUpdateInterval)*time.Minute)
-	//
+
 	r := mux.NewRouter()
-	r.HandleFunc("/index.json", ctrl.ServeIndex)
-	r.HandleFunc("/{id}/index.json", ctrl.ServePackageIndex)
-	r.PathPrefix("/{id}/{version}/").HandlerFunc(ctrl.ServePackage)
-	withCORS := handlers.CORS(
-		handlers.AllowedOrigins([]string{"*"}),
-		handlers.AllowedMethods([]string{"GET", "OPTIONS"}),
-		handlers.AllowedHeaders([]string{"DNT", "User-Agent", "X-Requested-With", "If-Modified-Since", "Cache-Control", "Content-Type", "Range"}),
-		handlers.MaxAge(1728000),
-	)
-	withLogging := handlers.LoggingHandler
+	r.HandleFunc("/index.json", ctrl.ServeIndex).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/{id}/index.json", ctrl.ServePackageIndex).Methods(http.MethodGet, http.MethodOptions)
+	r.PathPrefix("/{id}/{version}/").HandlerFunc(ctrl.ServePackage).Methods(http.MethodGet, http.MethodOptions)
+
+	// very lazy cors
+	r.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+			w.Header().Set("Access-Control-Allow-Methods", strings.Join([]string{http.MethodGet, http.MethodOptions}, ","))
+			w.Header().Set("Access-Control-Allow-Headers", "*")
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			next.ServeHTTP(w, req)
+		})
+	})
+
 	server := http.Server{
 		Addr:    cfgListenAddr,
-		Handler: withLogging(os.Stdout, withCORS(r)),
+		Handler: r,
 	}
 	log.Printf("listening on %q", cfgListenAddr)
 	log.Fatalf("error starting server: %v", server.ListenAndServe())
