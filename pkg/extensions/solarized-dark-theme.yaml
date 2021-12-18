@@ -1,0 +1,19 @@
+---
+id: xyz.notes.solarized-dark-theme
+npm: sn-solarized-dark-theme
+repo_url: https://github.com/standardnotes/solarized-dark-theme.git
+index: dist/dist.css
+
+name: Solarized Dark
+content_type: SN|Theme
+area: themes
+marketing_url: https://standardnotes.com/features/solarized-dark
+thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/themes/solarized-dark.jpg
+description: The perfect theme for any time.
+
+dock_icon:
+  type: circle
+  background_color: '#2AA198'
+  foreground_color: '#ffffff'
+  border_color: '#2AA198'
+...

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>standardnotes extensions</title>
+    <link rel="stylesheet" href="web/index.css" />
+  </head>
+  <body class="bg-gradient-to-bl from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center min-h-screen p-8">
+    <div class="grid grid-cols-[auto,auto,25rem] items-center gap-4 p-4 bg-white rounded shadow">
+      {{ range $n, $ext := .Extensions }}
+      <div class="text-md italic">{{ $ext.Name }}</div>
+      <div class="text-md text-sm text-gray-700 font-mono">{{ date $ext.LastStamp }}</div>
+      {{ if eq $ext.LatestURL "" }}
+      <p class="text-md font-mono text-sm text-gray-500">loading...</p>
+      {{ else }}
+      <input type="text" class="text-md font-mono text-sm text-ellipsis bg-gray-100 px-2 rounded appearance-none outline-none" readonly value="{{ $ext.LatestURL }}" />
+      {{ end }}
+      {{ end }}
+    </div>
+  </body>
+</html>

@@ -20,13 +20,13 @@ func mustEnv(key string) string {
 	return ""
 }
 
-func updatePackages(fn func() error, wait time.Duration) {
+func updateExtensions(fn func() error, wait time.Duration) {
 	for {
 		if err := fn(); err != nil {
-			log.Printf("error updating packages: %v", err)
+			log.Printf("error updating extensions: %v", err)
 		}
 		time.Sleep(wait)
-		log.Print("finished updating packages")
+		log.Print("finished updating extensions")
 	}
 }
 
@@ -41,12 +41,23 @@ func main() {
 	if err != nil {
 		log.Fatalf("error parsing update interval: %v", err)
 	}
-	go updatePackages(ctrl.UpdatePackages, time.Duration(cfgUpdateInterval)*time.Minute)
+	go updateExtensions(ctrl.UpdateExtensions, time.Duration(cfgUpdateInterval)*time.Minute)
+
+	indexHandler, err := ctrl.ServeIndex()
+	if err != nil {
+		log.Fatalf("error creating index handler: %v", err)
+	}
+	webHandler, err := ctrl.ServeWeb()
+	if err != nil {
+		log.Fatalf("error creating web handler: %v", err)
+	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/index.json", ctrl.ServeIndex).Methods(http.MethodGet, http.MethodOptions)
-	r.HandleFunc("/{id}/index.json", ctrl.ServePackageIndex).Methods(http.MethodGet, http.MethodOptions)
-	r.PathPrefix("/{id}/{version}/").HandlerFunc(ctrl.ServePackage).Methods(http.MethodGet, http.MethodOptions)
+	r.Handle("/", indexHandler).Methods(http.MethodGet)
+	r.PathPrefix("/web/").Handler(webHandler).Methods(http.MethodGet)
+
+	r.HandleFunc("/{id}/index.json", ctrl.ServeExtensionIndex).Methods(http.MethodGet, http.MethodOptions)
+	r.PathPrefix("/{id}/{version}/").HandlerFunc(ctrl.ServeExtension).Methods(http.MethodGet, http.MethodOptions)
 
 	// very lazy cors
 	r.Use(func(next http.Handler) http.Handler {

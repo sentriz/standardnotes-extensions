@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/go-git/go-git/v5"
 )
@@ -44,4 +45,16 @@ func RepoGetHEAD(repo *git.Repository) (string, error) {
 		return "", fmt.Errorf("get head: %w", err)
 	}
 	return head.Hash().String()[:8], nil
+}
+
+func RepoGetLatestStamp(repo *git.Repository) (time.Time, error) {
+	iter, err := repo.Log(&git.LogOptions{})
+	if err != nil {
+		return time.Time{}, fmt.Errorf("log repo: %w", err)
+	}
+	latest, err := iter.Next()
+	if err != nil {
+		return time.Time{}, fmt.Errorf("get latest: %w", err)
+	}
+	return latest.Committer.When, nil
 }

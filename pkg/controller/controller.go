@@ -1,8 +1,10 @@
 package controller
 
 import (
+	"embed"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
 	"net/url"
@@ -10,16 +12,20 @@ import (
 	"path"
 	"regexp"
 	"sort"
+	"text/template"
 	"time"
 
 	"github.com/gorilla/mux"
-	"go.senan.xyz/standardnotes-extensions/pkg/packages"
+	"go.senan.xyz/standardnotes-extensions/pkg/extensions"
 )
 
 var (
 	validUntil       = time.Date(2030, 0, 0, 0, 0, 0, 0, time.Local)
 	snExtRepo        = "https://github.com/sn-extensions"
 	regexpPackgeHash = regexp.MustCompile(`\/[0-9a-f]+\b`)
+
+	//go:embed web/*
+	webFS embed.FS
 )
 
 type Controller struct {
@@ -27,75 +33,101 @@ type Controller struct {
 	ReposDir string
 }
 
-func (c *Controller) UpdatePackage(pkg *packages.Package) error {
-	repoPath := path.Join(c.ReposDir, pkg.ID)
-	repo, err := RepoUpdate(repoPath, pkg.RepoURL)
+func (c *Controller) UpdateExtension(ext *extensions.Extension) error {
+	repoPath := path.Join(c.ReposDir, ext.ID)
+	repo, err := RepoUpdate(repoPath, ext.RepoURL)
 	if err != nil {
 		return fmt.Errorf("update repo: %w", err)
 	}
+
 	version, err := RepoGetHEAD(repo)
 	if err != nil {
 		return fmt.Errorf("get repo version: %w", err)
 	}
-	pkg.Version = version
-	pkg.ValidUntil = validUntil
-	pkgURL, _ := url.Parse(c.BaseURL)
-	pkgURL.Path = path.Join(pkgURL.Path, pkg.ID, version, pkg.Index)
-	pkg.URL = pkgURL.String()
-	pkg.DownloadURL = snExtRepo
+	lastStamp, err := RepoGetLatestStamp(repo)
+	if err != nil {
+		return fmt.Errorf("get repo last stamp: %w", err)
+	}
+
+	ext.Version = version
+	ext.LastStamp = lastStamp
+	ext.ValidUntil = validUntil
+
+	extURL, _ := url.Parse(c.BaseURL)
+	extURL.Path = path.Join(extURL.Path, ext.ID, version, ext.Index)
+	ext.URL = extURL.String()
+	ext.DownloadURL = snExtRepo
 	lastestURL, _ := url.Parse(c.BaseURL)
-	lastestURL.Path = path.Join(lastestURL.Path, pkg.ID, "index.json")
-	pkg.LatestURL = lastestURL.String()
+	lastestURL.Path = path.Join(lastestURL.Path, ext.ID, "index.json")
+	ext.LatestURL = lastestURL.String()
 	return nil
 }
 
-func (c *Controller) UpdatePackages() error {
-	log.Printf("loaded %d definitions", len(packages.Packages))
-	for _, pkg := range packages.Packages {
-		if err := c.UpdatePackage(pkg); err != nil {
-			return fmt.Errorf("updating package %q: %w", pkg.ID, err)
+func (c *Controller) UpdateExtensions() error {
+	log.Printf("loaded %d definitions", len(extensions.Extensions))
+	for _, ext := range extensions.Extensions {
+		if err := c.UpdateExtension(ext); err != nil {
+			return fmt.Errorf("updating extension %q: %w", ext.ID, err)
 		}
 	}
 	return nil
 }
 
-func (c *Controller) ServeIndex(w http.ResponseWriter, r *http.Request) {
-	var index packages.Index
-	index.ContentType = "SN|Repo"
-	index.ValidUntil = validUntil
-	index.Packages = make([]*packages.Package, 0, len(packages.Packages))
-	for _, pkg := range packages.Packages {
-		index.Packages = append(index.Packages, pkg)
-	}
-	sort.Slice(index.Packages, func(i, j int) bool {
-		return index.Packages[i].ID > index.Packages[j].ID
-	})
-	data, err := json.MarshalIndent(index, "", "    ")
+func (c *Controller) ServeIndex() (http.Handler, error) {
+	tmpl, err := template.
+		New("index.tmpl").
+		Funcs(template.FuncMap{
+			"date": func(t time.Time) string {
+				return t.Format("02 Jan 2006 15:04")
+			},
+		}).
+		ParseFS(webFS, "**/*.tmpl")
 	if err != nil {
-		http.Error(w, fmt.Sprintf("marshal packages: %v", err), 500)
-		return
+		return nil, fmt.Errorf("parse templates: %w", err)
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(data)
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var exts []*extensions.Extension
+		for _, v := range extensions.Extensions {
+			exts = append(exts, v)
+		}
+		sort.Slice(exts, func(i, j int) bool {
+			return exts[i].LastStamp.After(exts[j].LastStamp)
+		})
+
+		tmpl.Execute(w, struct {
+			Extensions []*extensions.Extension
+		}{
+			Extensions: exts,
+		})
+	}), nil
 }
 
-func (c *Controller) ServePackageIndex(w http.ResponseWriter, r *http.Request) {
+func (c *Controller) ServeWeb() (http.Handler, error) {
+	fs, err := fs.Sub(webFS, "web")
+	if err != nil {
+		return nil, fmt.Errorf("create sub fs: %w", err)
+	}
+	return http.StripPrefix("/web/", http.FileServer(http.FS(fs))), nil
+}
+
+func (c *Controller) ServeExtensionIndex(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	pkg, ok := packages.Packages[vars["id"]]
+	ext, ok := extensions.Extensions[vars["id"]]
 	if !ok {
-		http.Error(w, "can't find that package", 404)
+		http.Error(w, "can't find that extension", 404)
 		return
 	}
-	data, err := json.MarshalIndent(pkg, "", "    ")
+	data, err := json.MarshalIndent(ext, "", "    ")
 	if err != nil {
-		http.Error(w, fmt.Sprintf("marshal package: %v", err), 500)
+		http.Error(w, fmt.Sprintf("marshal extension: %v", err), 500)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(data)
 }
 
-func (c *Controller) ServePackage(w http.ResponseWriter, r *http.Request) {
+func (c *Controller) ServeExtension(w http.ResponseWriter, r *http.Request) {
 	filePath := path.Join(
 		c.ReposDir,
 		regexpPackgeHash.ReplaceAllString(r.URL.Path, ""),

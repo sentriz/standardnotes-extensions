@@ -1,0 +1,13 @@
+---
+id: xyz.notes.code-editor
+npm: sn-code-editor
+repo_url: https://github.com/standardnotes/code-editor.git
+index: index.html
+
+name: Code Editor
+content_type: SN|Component
+area: editor-editor
+marketing_url: https://standardnotes.com/features/code-editor
+thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/editors/code.jpg
+description: Syntax highlighting and convenient keyboard shortcuts for over 120 programming languages. Ideal for code snippets and procedures.
+...
