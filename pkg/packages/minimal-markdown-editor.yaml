@@ -1,0 +1,14 @@
+---
+id: xyz.notes.minimal-markdown-editor
+npm: sn-minimal-markdown-editor
+repo_url: https://github.com/standardnotes/minimal-markdown-editor.git
+index: index.html
+
+name: Markdown Minimist
+content_type: SN|Component
+area: editor-editor
+marketing_url: https://standardnotes.org/extensions/minimal-markdown-editor
+thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/editors/min-markdown.jpg
+description: A minimal Markdown editor with live rendering and in-text search via Ctrl/Cmd + F
+flags: []
+...

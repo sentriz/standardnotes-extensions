@@ -1,0 +1,14 @@
+---
+id: org.ryanpcmcquen.org-mode-editor
+npm: sn-org-mode-editor
+repo_url: https://github.com/ryanpcmcquen/standardnotes_org_mode_editor.git
+index: index.html
+
+name: Org Mode Editor
+content_type: SN|Component
+area: editor-editor
+marketing_url: https://github.com/ryanpcmcquen/standardnotes_org_mode_editor
+thumbnail_url: https://raw.githubusercontent.com/ryanpcmcquen/standardnotes_org_mode_editor/gh-pages/screenshot.1516826241.png
+description: Now you can use Org mode in your encrypted cloud! Enjoy all the formatting and folding of the world's best note taking format!
+flags: []
+...

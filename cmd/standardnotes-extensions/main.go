@@ -9,8 +9,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"go.senan.xyz/standardnotes-extensions/controller"
-	"go.senan.xyz/standardnotes-extensions/definition"
+	"go.senan.xyz/standardnotes-extensions/pkg/controller"
 )
 
 func mustEnv(key string) string {
@@ -35,10 +34,8 @@ func main() {
 	cfgListenAddr := mustEnv("SN_EXTS_LISTEN_ADDR")
 	cfgUpdateIntervalMins := mustEnv("SN_EXTS_UPDATE_INTERVAL_MINS")
 	ctrl := &controller.Controller{
-		BaseURL:        mustEnv("SN_EXTS_BASE_URL"),
-		ReposDir:       mustEnv("SN_EXTS_REPOS_DIR"),
-		DefinitionsDir: mustEnv("SN_EXTS_DEFINITIONS_DIR"),
-		Packages:       map[string]*definition.Package{},
+		BaseURL:  mustEnv("SN_EXTS_BASE_URL"),
+		ReposDir: mustEnv("SN_EXTS_REPOS_DIR"),
 	}
 	cfgUpdateInterval, err := strconv.Atoi(cfgUpdateIntervalMins)
 	if err != nil {

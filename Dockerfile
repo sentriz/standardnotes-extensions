@@ -11,9 +11,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 FROM scratch
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /src/standardnotes-extensions /
-COPY --from=build /src/definitions /definitions
 ENV SN_EXTS_LISTEN_ADDR :80
 ENV SN_EXTS_UPDATE_INTERVAL_MINS 4320
 ENV SN_EXTS_REPOS_DIR /repos
-ENV SN_EXTS_DEFINITIONS_DIR /definitions
 ENTRYPOINT ["/standardnotes-extensions"]

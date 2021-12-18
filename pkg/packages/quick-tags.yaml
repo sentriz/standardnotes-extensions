@@ -1,0 +1,12 @@
+---
+id: xyz.notes.quick-tags
+npm: sn-quick-tags
+repo_url: https://github.com/standardnotes/quick-tags.git
+index: index.html
+
+name: Quick Tags
+content_type: SN|Component
+area: note-tags
+description: Work more efficiently by quickly selecting from a live list of tags while you type. Supports keyboard shortcuts and folders.
+thumbnail_url: https://s3.amazonaws.com/standard-notes/screenshots/models/components/autocomplete.jpg
+...

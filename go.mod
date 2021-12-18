@@ -1,6 +1,6 @@
 module go.senan.xyz/standardnotes-extensions
 
-go 1.13
+go 1.17
 
 require (
 	github.com/go-git/go-git/v5 v5.1.0
