@@ -2,7 +2,7 @@
 id: xyz.notes.markdown-pro-editor
 npm: sn-markdown-pro-editor
 repo_url: https://github.com/standardnotes/markdown-pro.git
-index: index.html
+index: dist/index.html
 
 name: Markdown Pro Editor
 content_type: SN|Component
