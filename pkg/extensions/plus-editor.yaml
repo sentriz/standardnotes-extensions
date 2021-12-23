@@ -2,7 +2,7 @@
 id: xyz.notes.plus-editor
 npm: sn-plus-editor
 repo_url: https://github.com/standardnotes/plus-editor.git
-index: index.html
+index: dist/index.html
 
 name: Plus Editor
 content_type: SN|Component
