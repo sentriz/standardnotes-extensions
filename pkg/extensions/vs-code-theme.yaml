@@ -1,7 +1,7 @@
 ---
 id: io.github.hyphone.sn-theme-vscode
 repo_url: https://github.com/hyphone/sn-theme-vscode.git
-index: dist/dist.css
+index: dist.css
 
 name: VS Code Theme
 content_type: SN|Theme
