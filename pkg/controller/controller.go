@@ -22,7 +22,7 @@ import (
 var (
 	validUntil       = time.Date(2030, 0, 0, 0, 0, 0, 0, time.Local)
 	snExtRepo        = "https://github.com/sn-extensions"
-	regexpPackgeHash = regexp.MustCompile(`\/[0-9a-f]+\b`)
+	regexpPackgeHash = regexp.MustCompile(`\/[0-9a-f]+\/`)
 
 	//go:embed web/*
 	webFS embed.FS
@@ -130,7 +130,7 @@ func (c *Controller) ServeExtensionIndex(w http.ResponseWriter, r *http.Request)
 func (c *Controller) ServeExtension(w http.ResponseWriter, r *http.Request) {
 	filePath := path.Join(
 		c.ReposDir,
-		regexpPackgeHash.ReplaceAllString(r.URL.Path, ""),
+		regexpPackgeHash.ReplaceAllString(r.URL.Path, "/"),
 	)
 	// would have preferred to use http.ServeFile or http.Dir etc.
 	// but they seem to 301 requests for /index.html to /, which the
