@@ -13,7 +13,7 @@
 ```yaml
 services:
   extensions:
-    build: path/to/this/repo
+    image: sentriz/standardnotes-extensions:latest
     environment:
     - SN_EXTS_LISTEN_ADDR=:80
     - SN_EXTS_REPOS_DIR=/repos
