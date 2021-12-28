@@ -14,4 +14,5 @@ COPY --from=build /src/standardnotes-extensions /
 ENV SN_EXTS_LISTEN_ADDR :80
 ENV SN_EXTS_UPDATE_INTERVAL_MINS 4320
 ENV SN_EXTS_REPOS_DIR /repos
+ENV SN_EXTS_ENABLE_WEB_GUI 1
 ENTRYPOINT ["/standardnotes-extensions"]

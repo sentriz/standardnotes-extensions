@@ -33,6 +33,7 @@ func updateExtensions(fn func() error, wait time.Duration) {
 func main() {
 	cfgListenAddr := mustEnv("SN_EXTS_LISTEN_ADDR")
 	cfgUpdateIntervalMins := mustEnv("SN_EXTS_UPDATE_INTERVAL_MINS")
+	cfgEnableWebGUI, _ := strconv.ParseBool(mustEnv("SN_EXTS_ENABLE_WEB_GUI"))
 	ctrl := &controller.Controller{
 		BaseURL:  mustEnv("SN_EXTS_BASE_URL"),
 		ReposDir: mustEnv("SN_EXTS_REPOS_DIR"),
@@ -53,8 +54,10 @@ func main() {
 	}
 
 	r := mux.NewRouter()
-	r.Handle("/", indexHandler).Methods(http.MethodGet)
-	r.PathPrefix("/web/").Handler(webHandler).Methods(http.MethodGet)
+	if cfgEnableWebGUI {
+		r.Handle("/", indexHandler).Methods(http.MethodGet)
+		r.PathPrefix("/web/").Handler(webHandler).Methods(http.MethodGet)
+	}
 
 	r.HandleFunc("/{id}/index.json", ctrl.ServeExtensionIndex).Methods(http.MethodGet, http.MethodOptions)
 	r.PathPrefix("/{id}/{version}/").HandlerFunc(ctrl.ServeExtension).Methods(http.MethodGet, http.MethodOptions)
